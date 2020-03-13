@@ -1,6 +1,7 @@
 const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
+const WorkerPlugin = require('worker-plugin');
 
 module.exports = {
   mode: 'development',
@@ -30,5 +31,6 @@ module.exports = {
     new CopyPlugin([
       { from: "./public" }
     ]),
+    new WorkerPlugin()
   ]
 };
