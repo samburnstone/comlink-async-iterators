@@ -18,6 +18,11 @@ async function* counter() {
 
 let shouldCount = false;
 
+const postMessage = (message: any) => {
+  const worker: Worker = self as any;
+  worker.postMessage(message);
+};
+
 addEventListener("message", async e => {
   if (e.data === Messages.START_COUNTER) {
     shouldCount = true;
@@ -26,7 +31,7 @@ addEventListener("message", async e => {
         console.log("Counter cancelled");
         break;
       }
-      console.log(value);
+      postMessage(value);
     }
   }
 
