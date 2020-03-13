@@ -1,7 +1,5 @@
-import worker from './worker'
+const worker = new Worker("./worker.ts", { type: "module" });
 
-(async () => {
-  for await (const value of worker()) {
-    console.log(value);
-  }
-})()
+worker.onmessage = event => {
+  console.log(event.data);
+};
