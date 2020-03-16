@@ -12,7 +12,7 @@ const counter = wrap<Counter>(worker);
 
   const button = document.createElement("button");
   button.innerText = buttonTitle();
-  button.addEventListener("click", async () => {
+  button.addEventListener("click", () => {
     if (!isCounting) {
       counter.start(proxy(displayCounterValue));
     } else {
