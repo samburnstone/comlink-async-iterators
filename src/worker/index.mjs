@@ -1,4 +1,5 @@
-import { expose } from "comlink";
+import { expose } from "../../node_modules/comlink/dist/esm/comlink.mjs";
+import "../generatorTransferHandler.mjs";
 
 let shouldCount = false;
 
@@ -27,7 +28,5 @@ const exports = {
   start,
   stop
 };
-
-export type Counter = typeof exports;
 
 expose(exports);
