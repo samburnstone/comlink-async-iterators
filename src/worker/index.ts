@@ -1,30 +1,24 @@
+import { expose } from "comlink";
+
+let shouldCount = false;
+
 const sleep = () =>
   new Promise(res => {
     setTimeout(res, 1000);
   });
 
-async function* counter() {
+async function* startGenerator() {
   let counter = 0;
-  while (true) {
+  while (true && shouldCount) {
     yield counter++;
     await sleep();
   }
 }
 
-let shouldCount = false;
-
-const postMessage = (message: any) => {
-  const worker: Worker = self as any;
-  worker.postMessage(message);
-};
-
-const start = async () => {
+const start = async (callback: (value: number) => void) => {
   shouldCount = true;
-  for await (const value of counter()) {
-    if (!shouldCount) {
-      break;
-    }
-    postMessage(value);
+  for await (const value of startGenerator()) {
+    callback(value);
   }
 };
 
@@ -39,4 +33,4 @@ const exports = {
 
 export type Counter = typeof exports;
 
-export default exports;
+expose(exports);

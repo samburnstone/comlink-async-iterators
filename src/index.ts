@@ -1,4 +1,4 @@
-import { wrap } from "comlink";
+import { proxy, wrap } from "comlink";
 import { Counter } from "./worker/index";
 
 const worker = new Worker("./worker", { type: "module" });
@@ -12,9 +12,9 @@ const counter = wrap<Counter>(worker);
 
   const button = document.createElement("button");
   button.innerText = buttonTitle();
-  button.addEventListener("click", () => {
-    if (isCounting) {
-      counter.start();
+  button.addEventListener("click", async () => {
+    if (!isCounting) {
+      counter.start(proxy(displayCounterValue));
     } else {
       counter.stop();
     }
@@ -31,10 +31,9 @@ const counter = wrap<Counter>(worker);
   document.body.appendChild(counter);
 })();
 
-// Handle worker message
-worker.addEventListener("message", e => {
-  const p = document.querySelector("p");
-  if (p) {
-    p.innerText = e.data;
+const displayCounterValue = (value: number) => {
+  const counterEl = document.querySelector("p");
+  if (counterEl) {
+    counterEl.innerText = String(value);
   }
-});
+};
