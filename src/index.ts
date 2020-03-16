@@ -27,7 +27,6 @@ const worker = new Worker("./worker", { type: "module" });
 
 // Handle worker message
 worker.addEventListener("message", e => {
-  console.log(e);
   const p = document.querySelector("p");
   if (p) {
     p.innerText = e.data;

@@ -28,7 +28,6 @@ addEventListener("message", async e => {
     shouldCount = true;
     for await (const value of counter()) {
       if (!shouldCount) {
-        console.log("Counter cancelled");
         break;
       }
       postMessage(value);
