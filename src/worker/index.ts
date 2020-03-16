@@ -15,11 +15,8 @@ async function* startGenerator() {
   }
 }
 
-const start = async (callback: (value: number) => void) => {
-  shouldCount = true;
-  for await (const value of startGenerator()) {
-    callback(value);
-  }
+const start = () => {
+  return startGenerator()[Symbol.asyncIterator]();
 };
 
 const stop = () => {
