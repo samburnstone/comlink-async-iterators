@@ -1,9 +1,9 @@
-import { proxy, wrap } from "comlink";
-import { Counter } from "./worker/index";
+import { wrap } from "../node_modules/comlink/dist/esm/comlink.mjs";
+import "./generatorTransferHandler.mjs";
 
-const worker = new Worker("./worker", { type: "module" });
+const worker = new Worker("./src/worker/index.mjs", { type: "module" });
 
-const counter = wrap<Counter>(worker);
+const counter = wrap(worker);
 
 (() => {
   let isCounting = false;
@@ -34,7 +34,7 @@ const counter = wrap<Counter>(worker);
   document.body.appendChild(counter);
 })();
 
-const displayCounterValue = (value: number) => {
+const displayCounterValue = value => {
   const counterEl = document.querySelector("p");
   if (counterEl) {
     counterEl.innerText = String(value);
