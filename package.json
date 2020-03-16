@@ -34,5 +34,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "comlink": "^4.2.0"
   }
 }

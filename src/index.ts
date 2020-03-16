@@ -1,6 +1,9 @@
-import { Messages } from "./worker/index";
+import { wrap } from "comlink";
+import { Counter } from "./worker/index";
 
 const worker = new Worker("./worker", { type: "module" });
+
+const counter = wrap<Counter>(worker);
 
 (() => {
   let isCounting = false;
@@ -10,9 +13,12 @@ const worker = new Worker("./worker", { type: "module" });
   const button = document.createElement("button");
   button.innerText = buttonTitle();
   button.addEventListener("click", () => {
-    worker.postMessage(
-      isCounting ? Messages.STOP_COUNTER : Messages.START_COUNTER
-    );
+    if (isCounting) {
+      counter.start();
+    } else {
+      counter.stop();
+    }
+
     isCounting = !isCounting;
     button.innerText = buttonTitle();
   });

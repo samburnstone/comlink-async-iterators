@@ -1,8 +1,3 @@
-export enum Messages {
-  START_COUNTER = "START_COUNTER",
-  STOP_COUNTER = "STOP_COUNTER"
-}
-
 const sleep = () =>
   new Promise(res => {
     setTimeout(res, 1000);
@@ -23,18 +18,25 @@ const postMessage = (message: any) => {
   worker.postMessage(message);
 };
 
-addEventListener("message", async e => {
-  if (e.data === Messages.START_COUNTER) {
-    shouldCount = true;
-    for await (const value of counter()) {
-      if (!shouldCount) {
-        break;
-      }
-      postMessage(value);
+const start = async () => {
+  shouldCount = true;
+  for await (const value of counter()) {
+    if (!shouldCount) {
+      break;
     }
+    postMessage(value);
   }
+};
 
-  if (e.data === Messages.STOP_COUNTER) {
-    shouldCount = false;
-  }
-});
+const stop = () => {
+  shouldCount = false;
+};
+
+const exports = {
+  start,
+  stop
+};
+
+export type Counter = typeof exports;
+
+export default exports;
