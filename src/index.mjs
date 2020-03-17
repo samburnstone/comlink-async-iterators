@@ -3,6 +3,7 @@ import "./generatorTransferHandler.mjs";
 
 const worker = new Worker("./src/worker/index.mjs", { type: "module" });
 
+let isCounting = false;
 const counter = wrap(worker);
 
 const startCounter = async () => {
@@ -14,32 +15,30 @@ const startCounter = async () => {
 
     if (value === 10) {
       breakFn();
+      isCounting = false;
+      updateButtonTitle();
     }
   }
 };
 
-(() => {
-  let isCounting = false;
+const button = document.createElement("button");
 
-  const buttonTitle = () => (isCounting ? "Stop" : "Start");
+const updateButtonTitle = () =>
+  (button.innerText = isCounting ? "Stop" : "Start");
 
-  const button = document.createElement("button");
-  button.innerText = buttonTitle();
-  button.addEventListener("click", async () => {
-    if (!isCounting) {
-      startCounter();
-    } else {
-      counter.stop();
-    }
+updateButtonTitle();
+button.addEventListener("click", async () => {
+  if (!isCounting) {
+    startCounter();
+  } else {
+    counter.stop();
+  }
 
-    isCounting = !isCounting;
-    button.innerText = buttonTitle();
-  });
-  document.body.appendChild(button);
-})();
+  isCounting = !isCounting;
+  updateButtonTitle();
+});
+document.body.appendChild(button);
 
 // Counter paragraph
-(() => {
-  const counter = document.createElement("p");
-  document.body.appendChild(counter);
-})();
+const counterEl = document.createElement("p");
+document.body.appendChild(counterEl);
