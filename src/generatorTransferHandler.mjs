@@ -1,7 +1,18 @@
 import * as Comlink from "../node_modules/comlink/dist/esm/comlink.mjs";
 
 const listen = async (iterable, port) => {
+  let shouldIterate = true;
+
+  port.onmessage = ({ data }) => {
+    if (data === "CLOSE") {
+      shouldIterate = false;
+    }
+  };
+
   for await (const val of iterable) {
+    if (!shouldIterate) {
+      break;
+    }
     port.postMessage(val);
   }
 };
@@ -22,8 +33,17 @@ Comlink.transferHandlers.set("asyncIterator", {
           };
         });
 
-      while (true) {
-        yield await read();
+      let shouldBreak = false;
+
+      while (!shouldBreak) {
+        const value = await read();
+        const breakFn = () => {
+          shouldBreak = true;
+          port.postMessage("CLOSE");
+        };
+        yield { value, breakFn };
       }
+
+      console.log("DONE");
     })()
 });

@@ -5,7 +5,7 @@ let shouldCount = false;
 
 const sleep = () =>
   new Promise(res => {
-    setTimeout(res, 1000);
+    setTimeout(res, 100);
   });
 
 async function* start() {
