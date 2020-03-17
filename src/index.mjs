@@ -5,6 +5,14 @@ const worker = new Worker("./src/worker/index.mjs", { type: "module" });
 
 const counter = wrap(worker);
 
+const startCounter = async () => {
+  const iterable = await counter.start();
+  for await (const value of iterable) {
+    const el = document.querySelector("p");
+    el.innerText = value;
+  }
+};
+
 (() => {
   let isCounting = false;
 
@@ -14,10 +22,7 @@ const counter = wrap(worker);
   button.innerText = buttonTitle();
   button.addEventListener("click", async () => {
     if (!isCounting) {
-      const iter = await counter.start();
-      for await (const value of iter) {
-        console.log(value);
-      }
+      startCounter();
     } else {
       counter.stop();
     }
@@ -33,10 +38,3 @@ const counter = wrap(worker);
   const counter = document.createElement("p");
   document.body.appendChild(counter);
 })();
-
-const displayCounterValue = value => {
-  const counterEl = document.querySelector("p");
-  if (counterEl) {
-    counterEl.innerText = String(value);
-  }
-};

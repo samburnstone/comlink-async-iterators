@@ -8,17 +8,13 @@ const sleep = () =>
     setTimeout(res, 1000);
   });
 
-async function* startGenerator() {
+async function* start() {
   let counter = 0;
-  while (true && shouldCount) {
+  while (true) {
     yield counter++;
     await sleep();
   }
 }
-
-const start = () => {
-  return startGenerator()[Symbol.asyncIterator]();
-};
 
 const stop = () => {
   shouldCount = false;
