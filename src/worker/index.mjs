@@ -11,6 +11,7 @@ const sleep = () =>
 async function* start() {
   let counter = 0;
   while (true) {
+    console.log("increment");
     yield counter++;
     await sleep();
   }

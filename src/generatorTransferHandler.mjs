@@ -4,13 +4,14 @@ const listen = async (iterable, port) => {
   let shouldIterate = true;
 
   port.onmessage = ({ data }) => {
-    if (data === "CLOSE") {
+    if (data === "RETURN") {
       shouldIterate = false;
     }
   };
 
   for await (const val of iterable) {
     if (!shouldIterate) {
+      console.log("listener generator break called");
       break;
     }
     port.postMessage(val);
@@ -24,8 +25,8 @@ Comlink.transferHandlers.set("asyncIterator", {
     listen(iterable, port1);
     return [port2, [port2]];
   },
-  deserialize: port =>
-    (async function*() {
+  deserialize: port => {
+    async function* generatorFn() {
       const read = () =>
         new Promise(resolve => {
           port.onmessage = ({ data }) => {
@@ -33,17 +34,27 @@ Comlink.transferHandlers.set("asyncIterator", {
           };
         });
 
-      let shouldBreak = false;
-
-      while (!shouldBreak) {
-        const value = await read();
-        const breakFn = () => {
-          shouldBreak = true;
-          port.postMessage("CLOSE");
-        };
-        yield { value, breakFn };
+      while (true) {
+        yield await read();
+        console.log("reading!");
       }
+    }
 
-      console.log("DONE");
-    })()
+    const generator = generatorFn();
+
+    return {
+      [Symbol.asyncIterator]: () => ({
+        next: generator.next.bind(generator),
+        return: value => {
+          console.log("Breaking");
+          port.postMessage("RETURN");
+          return generator.return(value);
+        },
+        throw: e => {
+          console.log("Error thrown");
+          return generator.throw(e);
+        }
+      })
+    };
+  }
 });

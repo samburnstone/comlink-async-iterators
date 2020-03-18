@@ -9,15 +9,16 @@ const counter = wrap(worker);
 const startCounter = async () => {
   const iterable = await counter.start();
 
-  for await (const { value, breakFn } of iterable) {
+  for await (const value of iterable) {
     const el = document.querySelector("p");
     el.innerText = value;
 
     if (value === 10) {
-      breakFn();
-      isCounting = false;
-      updateButtonTitle();
+      break;
     }
+
+    isCounting = false;
+    updateButtonTitle();
   }
 };
 
