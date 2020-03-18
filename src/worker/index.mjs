@@ -5,18 +5,20 @@ let shouldCount = false;
 
 const sleep = () =>
   new Promise(res => {
-    setTimeout(res, 100);
+    setTimeout(res, 1000);
   });
 
 async function* start() {
+  shouldCount = true;
   let counter = 0;
-  while (true) {
-    console.log("increment");
+  while (shouldCount) {
     yield counter++;
     await sleep();
   }
+  console.log("exiting");
 }
 
+// TODO: do we need to inform other way where the generator exits.
 const stop = () => {
   shouldCount = false;
 };

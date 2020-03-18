@@ -16,10 +16,9 @@ const startCounter = async () => {
     if (value === 10) {
       break;
     }
-
-    isCounting = false;
-    updateButtonTitle();
   }
+  isCounting = false;
+  updateButtonTitle();
 };
 
 const button = document.createElement("button");
@@ -32,7 +31,9 @@ button.addEventListener("click", async () => {
   if (!isCounting) {
     startCounter();
   } else {
-    counter.stop();
+    await counter.stop();
+    isCounting = false;
+    updateButtonTitle();
   }
 
   isCounting = !isCounting;
