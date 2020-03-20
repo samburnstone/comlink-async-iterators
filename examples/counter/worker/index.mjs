@@ -1,5 +1,5 @@
-import { expose } from "../../node_modules/comlink/dist/esm/comlink.mjs";
-import "../generatorTransferHandler.mjs";
+import { expose } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
+import "../../../src/generatorTransferHandler.mjs";
 
 let shouldCount = false;
 
@@ -15,7 +15,6 @@ async function* start() {
     yield counter++;
     await sleep();
   }
-  console.log("exiting");
 }
 
 // TODO: do we need to inform other way where the generator exits.

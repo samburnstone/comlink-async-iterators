@@ -1,7 +1,7 @@
-import { wrap } from "../node_modules/comlink/dist/esm/comlink.mjs";
-import "./generatorTransferHandler.mjs";
+import { wrap } from "../../node_modules/comlink/dist/esm/comlink.mjs";
+import "../../../src/generatorTransferHandler.mjs";
 
-const worker = new Worker("./src/worker/index.mjs", { type: "module" });
+const worker = new Worker("./worker/index.mjs", { type: "module" });
 
 let isCounting = false;
 const counter = wrap(worker);
