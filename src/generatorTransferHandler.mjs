@@ -1,16 +1,20 @@
 import * as Comlink from "../node_modules/comlink/dist/esm/comlink.mjs";
 
-const listen = async (iterable, port) => {
+const listen = async (iterator, port) => {
   port.onmessage = async ({ data }) => {
     if (data === "NEXT") {
-      port.postMessage(await iterable.next());
+      port.postMessage(await iterator.next());
     }
     // TODO: return and throw arguments should be passed down
     if (data === "RETURN") {
-      port.postMessage(await iterable.return());
+      if (iterator.return) {
+        port.postMessage(await iterator.return());
+      }
     }
     if (data === "THROW") {
-      port.postMessage(await iterable.throw());
+      if (iterator.throw) {
+        port.postMessage(await iterator.throw());
+      }
     }
   };
 };
@@ -22,7 +26,7 @@ Comlink.transferHandlers.set("asyncIterator", {
     // https://developer.mozilla.org/en-US/docs/Web/API/Channel_Messaging_API
     // https://www.html5rocks.com/en/tutorials/workers/basics/
     const { port1, port2 } = new MessageChannel();
-    listen(iterable, port1);
+    listen(iterable[Symbol.asyncIterator](), port1);
     return [port2, [port2]];
   },
   deserialize: port => {
@@ -77,7 +81,7 @@ Comlink.transferHandlers.set("iterator", {
     // https://developer.mozilla.org/en-US/docs/Web/API/Channel_Messaging_API
     // https://www.html5rocks.com/en/tutorials/workers/basics/
     const { port1, port2 } = new MessageChannel();
-    listen(iterable, port1);
+    listen(iterable[Symbol.iterator](), port1);
     return [port2, [port2]];
   },
   deserialize: port => {
@@ -85,6 +89,7 @@ Comlink.transferHandlers.set("iterator", {
       const read = () =>
         new Promise(resolve => {
           port.onmessage = ({ data }) => {
+            console.log(data);
             resolve(data);
           };
         });
