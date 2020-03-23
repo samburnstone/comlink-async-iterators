@@ -1,18 +1,18 @@
 const listen = async (iterator, port) => {
-  port.onmessage = async ({ data }) => {
-    if (data === "NEXT") {
-      port.postMessage(await iterator.next());
-    }
-    // TODO: return and throw arguments should be passed down
-    if (data === "RETURN") {
-      if (iterator.return) {
-        port.postMessage(await iterator.return());
-      }
-    }
-    if (data === "THROW") {
-      if (iterator.throw) {
-        port.postMessage(await iterator.throw());
-      }
+  port.onmessage = async ({ data: { type, value } }) => {
+    switch (type) {
+      case "NEXT":
+        port.postMessage(await iterator.next(value));
+        break;
+      case "RETURN":
+        if (iterator.return) {
+          port.postMessage(await iterator.return(value));
+        }
+        break;
+      case "THROW":
+        if (iterator.throw) {
+          port.postMessage(await iterator.throw(value));
+        }
     }
   };
 };
@@ -54,15 +54,15 @@ const makeTransferHandler = symbolLookup => ({
 
     const iterator = {
       next: value => {
-        port.postMessage("NEXT");
+        port.postMessage({ type: "NEXT", value });
         return generator.next();
       },
       return: value => {
-        port.postMessage("RETURN");
+        port.postMessage({ type: "RETURN", value });
         return generator.return();
       },
-      throw: e => {
-        port.postMessage("THROW");
+      throw: value => {
+        port.postMessage({ type: "ERROR", value });
         return generator.throw();
       }
     };
