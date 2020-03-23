@@ -1,23 +1,30 @@
 import {
   expose,
-  proxy
+  transferHandlers
 } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
-import "../../../src/generatorTransferHandler.mjs";
+import { iteratorTransferHandler } from "../../../src/iterableTransferHandlers.mjs";
+
+transferHandlers.set("iterator", iteratorTransferHandler);
 
 const makeStrider = () => {
-  let index = 0;
   const stride = 2;
 
   return {
-    [Symbol.iterator]: () => ({
-      next: () => {
-        index += stride;
-        return {
-          value: index,
-          done: false
-        };
-      }
-    })
+    sum: (a, b) => {
+      return a + b;
+    },
+    [Symbol.iterator]: () => {
+      let index = 0;
+      return {
+        next: () => {
+          index += stride;
+          return {
+            value: index,
+            done: false
+          };
+        }
+      };
+    }
   };
 };
 

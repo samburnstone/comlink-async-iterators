@@ -1,8 +1,10 @@
 import {
   expose,
-  proxy
+  transferHandlers
 } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
-import "../../../src/generatorTransferHandler.mjs";
+import { iteratorTransferHandler } from "../../../src/iterableTransferHandlers.mjs";
+
+transferHandlers.set("iterator", iteratorTransferHandler);
 
 function* strider() {
   const stride = 2;

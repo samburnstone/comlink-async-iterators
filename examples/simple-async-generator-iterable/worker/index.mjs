@@ -1,5 +1,10 @@
-import { expose } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
-import "../../../src/generatorTransferHandler.mjs";
+import {
+  expose,
+  transferHandlers
+} from "../../../node_modules/comlink/dist/esm/comlink.mjs";
+import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.mjs";
+
+transferHandlers.set("asyncIterator", asyncIteratorTransferHandler);
 
 let shouldCount = false;
 

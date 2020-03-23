@@ -52,24 +52,24 @@ const makeTransferHandler = symbolLookup => ({
 
     const generator = generatorFn();
 
-    // Always return an asyncIterator from the main threads point of view
-    // TODO: need to forward on params via post message
-    return {
-      [Symbol.asyncIterator]: () => ({
-        next: value => {
-          port.postMessage("NEXT");
-          return generator.next();
-        },
-        return: value => {
-          port.postMessage("RETURN");
-          return generator.return();
-        },
-        throw: e => {
-          port.postMessage("THROW");
-          return generator.throw();
-        }
-      })
+    const iterator = {
+      next: value => {
+        port.postMessage("NEXT");
+        return generator.next();
+      },
+      return: value => {
+        port.postMessage("RETURN");
+        return generator.return();
+      },
+      throw: e => {
+        port.postMessage("THROW");
+        return generator.throw();
+      }
     };
+
+    iterator[Symbol.asyncIterator] = () => iterator;
+
+    return iterator;
   }
 });
 
