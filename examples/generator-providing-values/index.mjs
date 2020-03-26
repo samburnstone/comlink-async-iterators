@@ -13,7 +13,7 @@ const worker = wrap(new Worker("./worker/index.mjs", { type: "module" }));
 
   // First time calling next arg will be ignored (returns Pope as value)
   console.log(await famousPeopleGenerator.next());
-  // While are arg is referring to the pope, the value being returned is Victoria Beckham
+  // While our arg is referring to the pope, the value being returned is Victoria Beckham
   console.log(await famousPeopleGenerator.next("Don't know him that well"));
   console.log(await famousPeopleGenerator.next("Not a fan..."));
   console.log(await famousPeopleGenerator.next("Almost forgot about him!"));
