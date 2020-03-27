@@ -2,7 +2,7 @@ import {
   transferHandlers,
   wrap
 } from "../../node_modules/comlink/dist/esm/comlink.mjs";
-import { iteratorTransferHandler } from "../../../src/iterableTransferHandlers.mjs";
+import { iteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
 transferHandlers.set("iterator", iteratorTransferHandler);
 

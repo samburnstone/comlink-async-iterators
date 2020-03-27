@@ -2,7 +2,7 @@ import {
   expose,
   transferHandlers
 } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
-import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.mjs";
+import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
 transferHandlers.set("asyncIterator", asyncIteratorTransferHandler);
 
