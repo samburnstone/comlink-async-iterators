@@ -2,9 +2,9 @@ import {
   expose,
   transferHandlers
 } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
-import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
+import { asyncIterableTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
-transferHandlers.set("asyncIterator", asyncIteratorTransferHandler);
+transferHandlers.set("asyncIterable", asyncIterableTransferHandler);
 
 async function* fetchCommits(repo) {
   let url = `https://api.github.com/repos/${repo}/commits`;

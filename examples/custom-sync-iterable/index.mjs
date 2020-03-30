@@ -2,9 +2,9 @@ import {
   transferHandlers,
   wrap
 } from "../../node_modules/comlink/dist/esm/comlink.mjs";
-import { iteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
+import { iterableTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
-transferHandlers.set("iterator", iteratorTransferHandler);
+transferHandlers.set("iterable", iterableTransferHandler);
 
 const worker = wrap(new Worker("./worker/index.mjs", { type: "module" }));
 

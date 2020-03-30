@@ -84,7 +84,7 @@ const makeTransferHandler = symbolLookup => ({
   }
 });
 
-const asyncIteratorTransferHandler = makeTransferHandler(Symbol.asyncIterator);
-const iteratorTransferHandler = makeTransferHandler(Symbol.iterator);
+const asyncIterableTransferHandler = makeTransferHandler(Symbol.asyncIterator);
+const iterableTransferHandler = makeTransferHandler(Symbol.iterator);
 
-export { asyncIteratorTransferHandler, iteratorTransferHandler };
+export { asyncIterableTransferHandler, iterableTransferHandler };

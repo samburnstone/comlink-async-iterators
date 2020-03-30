@@ -2,9 +2,9 @@ import {
   wrap,
   transferHandlers
 } from "../../node_modules/comlink/dist/esm/comlink.mjs";
-import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
+import { asyncIterableTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
-transferHandlers.set("asyncIterator", asyncIteratorTransferHandler);
+transferHandlers.set("asyncIterable", asyncIterableTransferHandler);
 
 const commitFetcher = wrap(
   new Worker("./worker/index.mjs", { type: "module" })

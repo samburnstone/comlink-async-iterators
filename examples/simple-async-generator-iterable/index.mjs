@@ -2,9 +2,9 @@ import {
   wrap,
   transferHandlers
 } from "../../node_modules/comlink/dist/esm/comlink.mjs";
-import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
+import { asyncIterableTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
-transferHandlers.set("asyncIterator", asyncIteratorTransferHandler);
+transferHandlers.set("asyncIterable", asyncIterableTransferHandler);
 
 const worker = new Worker("./worker/index.mjs", { type: "module" });
 
@@ -15,7 +15,7 @@ const startCounter = async () => {
   const iterable = await counter.start();
 
   for await (const value of iterable) {
-    const el = document.querySelector("p");
+    const el = document.querySelector("p.target");
     el.innerText = value;
 
     if (value === 10) {
@@ -48,4 +48,5 @@ document.body.appendChild(button);
 
 // Counter paragraph
 const counterEl = document.createElement("p");
+counterEl.classList.add("target");
 document.body.appendChild(counterEl);

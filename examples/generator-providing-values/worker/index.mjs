@@ -2,9 +2,9 @@ import {
   expose,
   transferHandlers
 } from "../../../node_modules/comlink/dist/esm/comlink.mjs";
-import { iteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
+import { iterableTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
-transferHandlers.set("iterator", iteratorTransferHandler);
+transferHandlers.set("iterable", iterableTransferHandler);
 
 function* createFamousPeopleGenerator() {
   const famousPeople = ["The Pope", "Victoria Beckham", "Michael Owen"];

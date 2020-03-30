@@ -2,9 +2,9 @@ import {
   wrap,
   transferHandlers
 } from "../../node_modules/comlink/dist/esm/comlink.mjs";
-import { asyncIteratorTransferHandler } from "../../../src/iterableTransferHandlers.js";
+import { asyncIterableTransferHandler } from "../../../src/iterableTransferHandlers.js";
 
-transferHandlers.set("asyncIterator", asyncIteratorTransferHandler);
+transferHandlers.set("asyncIterable", asyncIterableTransferHandler);
 
 const subscriptionService = wrap(
   new Worker("./worker/index.mjs", { type: "module" })
@@ -23,6 +23,7 @@ const startSubscription = async stockSymbol => {
 
   stopButtonEl.addEventListener("click", () => {
     iterator.return();
+    stopButtonEl.disabled = true;
   });
 
   for await (const price of iterator) {

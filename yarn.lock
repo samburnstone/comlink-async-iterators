@@ -289,11 +289,6 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-jsoff@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/jsoff/-/jsoff-1.1.0.tgz#87abc7a4bb39eec9b1b1a5adb911d1707809128e"
-  integrity sha1-h6vHpLs57smxsaWtuRHRcHgJEo4=
-
 json-parse-better-errors@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
