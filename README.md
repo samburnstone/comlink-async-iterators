@@ -2,6 +2,8 @@
 
 Uses Comlink's `transferHandler` pluggable functionality to add support for async and sync iterables to be called from a different browser execution context.
 
+This repository accompanies [this blog post](https://blog.scottlogic.com/2020/04/22/Async-Iterators-Across-Execution-Contexts.html) which I hope you find informative. Note that you may want to take a look at [this Comlink issue](https://github.com/GoogleChromeLabs/comlink/issues/435) where there's a discussion about how to get generators working using the library.
+
 ## Running the examples
 
 A number of different iterable use-cases were trialled to check the transfer handler worked in these cases. You can view these examples by doing the following:
