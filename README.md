@@ -10,6 +10,8 @@ A number of different iterable use-cases were trialled to check the transfer han
 - `yarn start` - This will start a server running on `localhost:5000`
 - Navigate to `localhost:5000/examples`
 
+Note that the examples are written using ES6 modules in Web Workers - this requires Chrome 80 ([Firefox and Safari don't yet support this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Browser_compatibility)).
+
 ## Shortcomings
 
 - Currently, only the iterator / async iterator is callable "over the wire". This means any other properties available on the iterable cannot be accessed.
